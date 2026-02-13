@@ -1,6 +1,8 @@
 #include "shared-bindings/simplefoc/SpeedCalculator.h"
-#include "py/runtime.h"
+#include "shared-module/simplefoc/SpeedCalculator.h"
+
 #include "py/objproperty.h"
+#include "py/runtime.h"
 
 //| class SpeedCalculator:
 //|     """Calculate velocity from encoder position
@@ -112,6 +114,7 @@ STATIC MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(simplefoc_speedcalculator_get_rpm_obj
 //|         """Reset calculator state"""
 //|         ...
 //|
+
 STATIC mp_obj_t simplefoc_speedcalculator_reset(mp_obj_t self_in) {
     simplefoc_speedcalculator_obj_t *self = MP_OBJ_TO_PTR(self_in);
     common_hal_simplefoc_speedcalculator_reset(self);
@@ -126,9 +129,10 @@ STATIC const mp_rom_map_elem_t simplefoc_speedcalculator_locals_dict_table[] = {
 };
 STATIC MP_DEFINE_CONST_DICT(simplefoc_speedcalculator_locals_dict, simplefoc_speedcalculator_locals_dict_table);
 
-const mp_obj_type_t simplefoc_speedcalculator_type = {
-    { &mp_type_type },
-    .name = MP_QSTR_SpeedCalculator,
-    .make_new = simplefoc_speedcalculator_make_new,
-    .locals_dict = (mp_obj_dict_t *)&simplefoc_speedcalculator_locals_dict,
-};
+MP_DEFINE_CONST_OBJ_TYPE(
+    simplefoc_speedcalculator_type,
+    MP_QSTR_SpeedCalculator,
+    MP_TYPE_FLAG_NONE,
+    make_new, simplefoc_speedcalculator_make_new,
+    locals_dict, &simplefoc_speedcalculator_locals_dict
+);
