@@ -1,6 +1,6 @@
-#ifndef MICROPY_INCLUDED_SHARED_BINDINGS_SIMPLEFOC___INIT___H
-#define MICROPY_INCLUDED_SHARED_BINDINGS_SIMPLEFOC___INIT___H
+#pragma once
 
-// SimpleFOC module - Motor control algorithms for CircuitPython
+#include "py/obj.h"
 
-#endif // MICROPY_INCLUDED_SHARED_BINDINGS_SIMPLEFOC___INIT___H
+// Module-level objects
+extern const mp_obj_module_t simplefoc_module;
