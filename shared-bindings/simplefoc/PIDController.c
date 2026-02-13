@@ -1,6 +1,8 @@
 #include "shared-bindings/simplefoc/PIDController.h"
-#include "py/runtime.h"
+#include "shared-module/simplefoc/PIDController.h"
+
 #include "py/objproperty.h"
+#include "py/runtime.h"
 
 //| class PIDController:
 //|     """PID controller for motor control
@@ -160,9 +162,11 @@ STATIC const mp_rom_map_elem_t simplefoc_pidcontroller_locals_dict_table[] = {
 };
 STATIC MP_DEFINE_CONST_DICT(simplefoc_pidcontroller_locals_dict, simplefoc_pidcontroller_locals_dict_table);
 
-const mp_obj_type_t simplefoc_pidcontroller_type = {
-    { &mp_type_type },
-    .name = MP_QSTR_PIDController,
-    .make_new = simplefoc_pidcontroller_make_new,
-    .locals_dict = (mp_obj_dict_t *)&simplefoc_pidcontroller_locals_dict,
-};
+// FIXED: New-style type definition for CircuitPython 10.x
+MP_DEFINE_CONST_OBJ_TYPE(
+    simplefoc_pidcontroller_type,
+    MP_QSTR_PIDController,
+    MP_TYPE_FLAG_NONE,
+    make_new, simplefoc_pidcontroller_make_new,
+    locals_dict, &simplefoc_pidcontroller_locals_dict
+);
