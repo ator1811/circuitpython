@@ -1,2 +1,2 @@
-// SimpleFOC module initialization
-// This file can be empty for our module
+// This file is intentionally empty
+// Module registration happens in shared-bindings
