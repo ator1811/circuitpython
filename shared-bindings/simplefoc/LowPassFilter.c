@@ -21,7 +21,7 @@
 //|         :return: Filtered output value"""
 //|         ...
 
-STATIC mp_obj_t simplefoc_lowpassfilter_make_new(const mp_obj_type_t *type,
+static mp_obj_t simplefoc_lowpassfilter_make_new(const mp_obj_type_t *type,
     size_t n_args, size_t n_kw, const mp_obj_t *all_args) {
     enum { ARG_time_constant };
     static const mp_arg_t allowed_args[] = {
@@ -50,7 +50,7 @@ STATIC mp_obj_t simplefoc_lowpassfilter_make_new(const mp_obj_type_t *type,
 //|     time_constant: float
 //|     """Time constant of the filter (read/write)"""
 
-STATIC mp_obj_t simplefoc_lowpassfilter_filter(size_t n_args, const mp_obj_t *args) {
+static mp_obj_t simplefoc_lowpassfilter_filter(size_t n_args, const mp_obj_t *args) {
     simplefoc_lowpassfilter_obj_t *self = MP_OBJ_TO_PTR(args[0]);
     mp_float_t x = mp_obj_get_float(args[1]);
     mp_float_t dt = mp_obj_get_float(args[2]);
@@ -58,24 +58,24 @@ STATIC mp_obj_t simplefoc_lowpassfilter_filter(size_t n_args, const mp_obj_t *ar
     mp_float_t result = common_hal_simplefoc_lowpassfilter_filter(self, x, dt);
     return mp_obj_new_float(result);
 }
-STATIC MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(simplefoc_lowpassfilter_filter_obj, 3, 3, simplefoc_lowpassfilter_filter);
+static MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(simplefoc_lowpassfilter_filter_obj, 3, 3, simplefoc_lowpassfilter_filter);
 
 // reset method
-STATIC mp_obj_t simplefoc_lowpassfilter_reset(mp_obj_t self_in) {
+static mp_obj_t simplefoc_lowpassfilter_reset(mp_obj_t self_in) {
     simplefoc_lowpassfilter_obj_t *self = MP_OBJ_TO_PTR(self_in);
     common_hal_simplefoc_lowpassfilter_reset(self);
     return mp_const_none;
 }
-STATIC MP_DEFINE_CONST_FUN_OBJ_1(simplefoc_lowpassfilter_reset_obj, simplefoc_lowpassfilter_reset);
+static MP_DEFINE_CONST_FUN_OBJ_1(simplefoc_lowpassfilter_reset_obj, simplefoc_lowpassfilter_reset);
 
 // time_constant property getter
-STATIC mp_obj_t simplefoc_lowpassfilter_get_time_constant(mp_obj_t self_in) {
+static mp_obj_t simplefoc_lowpassfilter_get_time_constant(mp_obj_t self_in) {
     simplefoc_lowpassfilter_obj_t *self = MP_OBJ_TO_PTR(self_in);
     return mp_obj_new_float(common_hal_simplefoc_lowpassfilter_get_time_constant(self));
 }
 MP_DEFINE_CONST_FUN_OBJ_1(simplefoc_lowpassfilter_get_time_constant_obj, simplefoc_lowpassfilter_get_time_constant);
 
-STATIC mp_obj_t simplefoc_lowpassfilter_set_time_constant(mp_obj_t self_in, mp_obj_t Tf_obj) {
+static mp_obj_t simplefoc_lowpassfilter_set_time_constant(mp_obj_t self_in, mp_obj_t Tf_obj) {
     simplefoc_lowpassfilter_obj_t *self = MP_OBJ_TO_PTR(self_in);
     mp_float_t Tf = mp_obj_get_float(Tf_obj);
     common_hal_simplefoc_lowpassfilter_set_time_constant(self, Tf);
@@ -87,12 +87,12 @@ MP_PROPERTY_GETSET(simplefoc_lowpassfilter_time_constant_obj,
     (mp_obj_t)&simplefoc_lowpassfilter_get_time_constant_obj,
     (mp_obj_t)&simplefoc_lowpassfilter_set_time_constant_obj);
 
-STATIC const mp_rom_map_elem_t simplefoc_lowpassfilter_locals_dict_table[] = {
+static const mp_rom_map_elem_t simplefoc_lowpassfilter_locals_dict_table[] = {
     { MP_ROM_QSTR(MP_QSTR_filter), MP_ROM_PTR(&simplefoc_lowpassfilter_filter_obj) },
     { MP_ROM_QSTR(MP_QSTR_reset), MP_ROM_PTR(&simplefoc_lowpassfilter_reset_obj) },
     { MP_ROM_QSTR(MP_QSTR_time_constant), MP_ROM_PTR(&simplefoc_lowpassfilter_time_constant_obj) },
 };
-STATIC MP_DEFINE_CONST_DICT(simplefoc_lowpassfilter_locals_dict, simplefoc_lowpassfilter_locals_dict_table);
+static MP_DEFINE_CONST_DICT(simplefoc_lowpassfilter_locals_dict, simplefoc_lowpassfilter_locals_dict_table);
 
 // FIXED: New-style type definition for CircuitPython 10.x
 MP_DEFINE_CONST_OBJ_TYPE(
