@@ -30,7 +30,7 @@
 //|         """
 //|         ...
 //|
-STATIC mp_obj_t simplefoc_speedcalculator_make_new(const mp_obj_type_t *type,
+static mp_obj_t simplefoc_speedcalculator_make_new(const mp_obj_type_t *type,
                                                      size_t n_args,
                                                      size_t n_kw,
                                                      const mp_obj_t *all_args) {
@@ -80,7 +80,7 @@ STATIC mp_obj_t simplefoc_speedcalculator_make_new(const mp_obj_type_t *type,
 //|         """
 //|         ...
 //|
-STATIC mp_obj_t simplefoc_speedcalculator_calculate(size_t n_args, const mp_obj_t *args) {
+static mp_obj_t simplefoc_speedcalculator_calculate(size_t n_args, const mp_obj_t *args) {
     simplefoc_speedcalculator_obj_t *self = MP_OBJ_TO_PTR(args[0]);
     int position = mp_obj_get_int(args[1]);
     float dt = mp_obj_get_float(args[2]);
@@ -88,7 +88,7 @@ STATIC mp_obj_t simplefoc_speedcalculator_calculate(size_t n_args, const mp_obj_
     float velocity = common_hal_simplefoc_speedcalculator_calculate(self, position, dt);
     return mp_obj_new_float(velocity);
 }
-STATIC MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(simplefoc_speedcalculator_calculate_obj, 3, 3, simplefoc_speedcalculator_calculate);
+static MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(simplefoc_speedcalculator_calculate_obj, 3, 3, simplefoc_speedcalculator_calculate);
 
 //|     def get_rpm(self, position: int, dt: float) -> float:
 //|         """Calculate velocity in RPM
@@ -99,7 +99,7 @@ STATIC MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(simplefoc_speedcalculator_calculate_o
 //|         """
 //|         ...
 //|
-STATIC mp_obj_t simplefoc_speedcalculator_get_rpm(size_t n_args, const mp_obj_t *args) {
+static mp_obj_t simplefoc_speedcalculator_get_rpm(size_t n_args, const mp_obj_t *args) {
     simplefoc_speedcalculator_obj_t *self = MP_OBJ_TO_PTR(args[0]);
     int position = mp_obj_get_int(args[1]);
     float dt = mp_obj_get_float(args[2]);
@@ -108,26 +108,26 @@ STATIC mp_obj_t simplefoc_speedcalculator_get_rpm(size_t n_args, const mp_obj_t 
     float velocity_rpm = velocity_rps * 60.0f;
     return mp_obj_new_float(velocity_rpm);
 }
-STATIC MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(simplefoc_speedcalculator_get_rpm_obj, 3, 3, simplefoc_speedcalculator_get_rpm);
+static MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(simplefoc_speedcalculator_get_rpm_obj, 3, 3, simplefoc_speedcalculator_get_rpm);
 
 //|     def reset(self) -> None:
 //|         """Reset calculator state"""
 //|         ...
 //|
 
-STATIC mp_obj_t simplefoc_speedcalculator_reset(mp_obj_t self_in) {
+static mp_obj_t simplefoc_speedcalculator_reset(mp_obj_t self_in) {
     simplefoc_speedcalculator_obj_t *self = MP_OBJ_TO_PTR(self_in);
     common_hal_simplefoc_speedcalculator_reset(self);
     return mp_const_none;
 }
-STATIC MP_DEFINE_CONST_FUN_OBJ_1(simplefoc_speedcalculator_reset_obj, simplefoc_speedcalculator_reset);
+static MP_DEFINE_CONST_FUN_OBJ_1(simplefoc_speedcalculator_reset_obj, simplefoc_speedcalculator_reset);
 
-STATIC const mp_rom_map_elem_t simplefoc_speedcalculator_locals_dict_table[] = {
+static const mp_rom_map_elem_t simplefoc_speedcalculator_locals_dict_table[] = {
     { MP_ROM_QSTR(MP_QSTR_calculate), MP_ROM_PTR(&simplefoc_speedcalculator_calculate_obj) },
     { MP_ROM_QSTR(MP_QSTR_get_rpm), MP_ROM_PTR(&simplefoc_speedcalculator_get_rpm_obj) },
     { MP_ROM_QSTR(MP_QSTR_reset), MP_ROM_PTR(&simplefoc_speedcalculator_reset_obj) },
 };
-STATIC MP_DEFINE_CONST_DICT(simplefoc_speedcalculator_locals_dict, simplefoc_speedcalculator_locals_dict_table);
+static MP_DEFINE_CONST_DICT(simplefoc_speedcalculator_locals_dict, simplefoc_speedcalculator_locals_dict_table);
 
 MP_DEFINE_CONST_OBJ_TYPE(
     simplefoc_speedcalculator_type,
