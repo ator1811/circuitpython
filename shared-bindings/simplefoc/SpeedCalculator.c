@@ -30,7 +30,7 @@
 //|         """
 //|         ...
 //|
-static mp_obj_t simplefoc_speedcalculator_make_new(const mp_obj_type_t *type,
+    mp_obj_t simplefoc_speedcalculator_make_new(const mp_obj_type_t *type,
                                                      size_t n_args,
                                                      size_t n_kw,
                                                      const mp_obj_t *all_args) {

@@ -21,7 +21,8 @@
 //|         :return: Filtered output value"""
 //|         ...
 
-static mp_obj_t simplefoc_lowpassfilter_make_new(const mp_obj_type_t *type,
+// FIXED: Removed 'static' to match header declaration
+mp_obj_t simplefoc_lowpassfilter_make_new(const mp_obj_type_t *type,
     size_t n_args, size_t n_kw, const mp_obj_t *all_args) {
     enum { ARG_time_constant };
     static const mp_arg_t allowed_args[] = {
@@ -50,6 +51,7 @@ static mp_obj_t simplefoc_lowpassfilter_make_new(const mp_obj_type_t *type,
 //|     time_constant: float
 //|     """Time constant of the filter (read/write)"""
 
+// FIXED: Added 'static' (was missing)
 static mp_obj_t simplefoc_lowpassfilter_filter(size_t n_args, const mp_obj_t *args) {
     simplefoc_lowpassfilter_obj_t *self = MP_OBJ_TO_PTR(args[0]);
     mp_float_t x = mp_obj_get_float(args[1]);
@@ -69,16 +71,18 @@ static mp_obj_t simplefoc_lowpassfilter_reset(mp_obj_t self_in) {
 static MP_DEFINE_CONST_FUN_OBJ_1(simplefoc_lowpassfilter_reset_obj, simplefoc_lowpassfilter_reset);
 
 // time_constant property getter
+// FIXED: Changed to call common_hal_simplefoc_lowpassfilter_get_Tf
 static mp_obj_t simplefoc_lowpassfilter_get_time_constant(mp_obj_t self_in) {
     simplefoc_lowpassfilter_obj_t *self = MP_OBJ_TO_PTR(self_in);
-    return mp_obj_new_float(common_hal_simplefoc_lowpassfilter_get_time_constant(self));
+    return mp_obj_new_float(common_hal_simplefoc_lowpassfilter_get_Tf(self));
 }
 MP_DEFINE_CONST_FUN_OBJ_1(simplefoc_lowpassfilter_get_time_constant_obj, simplefoc_lowpassfilter_get_time_constant);
 
+// FIXED: Changed to call common_hal_simplefoc_lowpassfilter_set_Tf
 static mp_obj_t simplefoc_lowpassfilter_set_time_constant(mp_obj_t self_in, mp_obj_t Tf_obj) {
     simplefoc_lowpassfilter_obj_t *self = MP_OBJ_TO_PTR(self_in);
     mp_float_t Tf = mp_obj_get_float(Tf_obj);
-    common_hal_simplefoc_lowpassfilter_set_time_constant(self, Tf);
+    common_hal_simplefoc_lowpassfilter_set_Tf(self, Tf);
     return mp_const_none;
 }
 MP_DEFINE_CONST_FUN_OBJ_2(simplefoc_lowpassfilter_set_time_constant_obj, simplefoc_lowpassfilter_set_time_constant);
@@ -94,7 +98,7 @@ static const mp_rom_map_elem_t simplefoc_lowpassfilter_locals_dict_table[] = {
 };
 static MP_DEFINE_CONST_DICT(simplefoc_lowpassfilter_locals_dict, simplefoc_lowpassfilter_locals_dict_table);
 
-// FIXED: New-style type definition for CircuitPython 10.x
+// New-style type definition for CircuitPython 10.x
 MP_DEFINE_CONST_OBJ_TYPE(
     simplefoc_lowpassfilter_type,
     MP_QSTR_LowPassFilter,
