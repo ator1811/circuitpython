@@ -1,6 +1,4 @@
-#ifndef MICROPY_INCLUDED_SHARED_MODULE_SIMPLEFOC___INIT___H
-#define MICROPY_INCLUDED_SHARED_MODULE_SIMPLEFOC___INIT___H
+#pragma once
 
-// SimpleFOC module implementation header
-
-#endif // MICROPY_INCLUDED_SHARED_MODULE_SIMPLEFOC___INIT___H
+// This file is intentionally minimal
+// Individual classes define their own headers

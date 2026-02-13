@@ -1,13 +1,6 @@
 #include "shared-module/simplefoc/PIDController.h"
 #include <math.h>
 
-// Constrain value between min and max
-static inline float constrain(float value, float min_val, float max_val) {
-    if (value < min_val) return min_val;
-    if (value > max_val) return max_val;
-    return value;
-}
-
 void common_hal_simplefoc_pidcontroller_construct(simplefoc_pidcontroller_obj_t *self,
                                                     float P, float I, float D,
                                                     float ramp, float limit) {
@@ -15,52 +8,59 @@ void common_hal_simplefoc_pidcontroller_construct(simplefoc_pidcontroller_obj_t 
     self->I = I;
     self->D = D;
     self->output_ramp = ramp;
-    self->output_limit = limit;
+    self->limit = limit;
     self->integral_prev = 0.0f;
     self->error_prev = 0.0f;
     self->output_prev = 0.0f;
-    self->timestamp_prev = 0;
 }
 
 float common_hal_simplefoc_pidcontroller_calculate(simplefoc_pidcontroller_obj_t *self,
                                                      float setpoint, float measured, float dt) {
+    if (dt <= 0.0f) {
+        return self->output_prev;
+    }
+    
     // Calculate error
     float error = setpoint - measured;
     
     // Proportional term
-    float P_term = self->P * error;
+    float proportional = self->P * error;
     
     // Integral term with anti-windup
-    float I_term = self->integral_prev + self->I * dt * error;
+    float integral = self->integral_prev + self->I * error * dt;
     
     // Derivative term
-    float D_term = 0.0f;
-    if (dt > 0.0f) {
-        D_term = self->D * (error - self->error_prev) / dt;
-    }
+    float derivative = self->D * (error - self->error_prev) / dt;
     
     // Calculate output
-    float output = P_term + I_term + D_term;
+    float output = proportional + integral + derivative;
     
-    // Apply output limit
-    if (self->output_limit != 0.0f) {
-        output = constrain(output, -self->output_limit, self->output_limit);
-    }
-    
-    // Apply output ramp
-    if (self->output_ramp != 0.0f && dt > 0.0f) {
-        float output_rate = (output - self->output_prev) / dt;
-        if (fabsf(output_rate) > self->output_ramp) {
-            if (output_rate > 0.0f) {
-                output = self->output_prev + self->output_ramp * dt;
-            } else {
-                output = self->output_prev - self->output_ramp * dt;
-            }
+    // Apply output limiting
+    if (self->limit > 0.0f) {
+        if (output > self->limit) {
+            output = self->limit;
+        } else if (output < -self->limit) {
+            output = -self->limit;
         }
     }
     
-    // Update state for next iteration
-    self->integral_prev = I_term;
+    // Apply rate limiting (ramp)
+    if (self->output_ramp > 0.0f) {
+        float max_change = self->output_ramp * dt;
+        float delta = output - self->output_prev;
+        if (delta > max_change) {
+            output = self->output_prev + max_change;
+        } else if (delta < -max_change) {
+            output = self->output_prev - max_change;
+        }
+    }
+    
+    // Anti-windup: only update integral if output is not saturated
+    if (self->limit <= 0.0f || (fabsf(output) < self->limit)) {
+        self->integral_prev = integral;
+    }
+    
+    // Save state
     self->error_prev = error;
     self->output_prev = output;
     
