@@ -5,25 +5,17 @@
 #include "shared-bindings/simplefoc/PIDController.h"
 #include "shared-bindings/simplefoc/LowPassFilter.h"
 #include "shared-bindings/simplefoc/SpeedCalculator.h"
-#include "shared-bindings/simplefoc/Encoder.h"
 
-//| """SimpleFOC motor control library
+//| """SimpleFOC Motor Control Library
 //|
-//| Provides high-performance C implementations of SimpleFOC algorithms:
-//| - PIDController: PID control with automatic timing
-//| - LowPassFilter: Low-pass filtering for sensor smoothing
-//| - SpeedCalculator: Simple velocity calculation from position
-//| - Encoder: Advanced encoder with SimpleFOC velocity algorithm
-//|
-//| These modules match the SimpleFOC Arduino library API."""
-//|
+//| High-performance C implementation of SimpleFOC algorithms for CircuitPython.
+//| Provides PID control, low-pass filtering, and velocity calculation."""
 
 static const mp_rom_map_elem_t simplefoc_module_globals_table[] = {
     { MP_ROM_QSTR(MP_QSTR___name__), MP_ROM_QSTR(MP_QSTR_simplefoc) },
     { MP_ROM_QSTR(MP_QSTR_PIDController), MP_ROM_PTR(&simplefoc_pidcontroller_type) },
     { MP_ROM_QSTR(MP_QSTR_LowPassFilter), MP_ROM_PTR(&simplefoc_lowpassfilter_type) },
     { MP_ROM_QSTR(MP_QSTR_SpeedCalculator), MP_ROM_PTR(&simplefoc_speedcalculator_type) },
-    { MP_ROM_QSTR(MP_QSTR_Encoder), MP_ROM_PTR(&simplefoc_encoder_type) },
 };
 
 static MP_DEFINE_CONST_DICT(simplefoc_module_globals, simplefoc_module_globals_table);
