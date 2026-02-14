@@ -1,6 +1,7 @@
 #pragma once
 
 #include "py/obj.h"
+#include <stdint.h>
 
 extern const mp_obj_type_t simplefoc_pidcontroller_type;
 
@@ -12,12 +13,13 @@ extern mp_obj_t simplefoc_pidcontroller_make_new(const mp_obj_type_t *type,
 
 typedef struct {
     mp_obj_base_t base;
-    float P;
-    float I;
-    float D;
-    float output_ramp;
-    float limit;
-    float integral_prev;
-    float error_prev;
-    float output_prev;
+    float P;                      // Proportional gain
+    float I;                      // Integral gain
+    float D;                      // Derivative gain
+    float output_ramp;            // Maximum speed of change of output [units/sec]
+    float limit;                  // Maximum output value [units]
+    float integral_prev;          // Last integral component value
+    float error_prev;             // Last tracking error value
+    float output_prev;            // Last PID output value
+    uint64_t timestamp_prev;      // Last execution timestamp [microseconds]
 } simplefoc_pidcontroller_obj_t;
