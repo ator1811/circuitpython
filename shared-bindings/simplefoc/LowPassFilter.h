@@ -1,6 +1,7 @@
 #pragma once
 
 #include "py/obj.h"
+#include <stdint.h>
 
 extern const mp_obj_type_t simplefoc_lowpassfilter_type;
 
@@ -12,6 +13,7 @@ extern mp_obj_t simplefoc_lowpassfilter_make_new(const mp_obj_type_t *type,
 
 typedef struct {
     mp_obj_base_t base;
-    float Tf;        // Time constant
-    float y_prev;    // Previous output
+    float Tf;                    // Time constant [seconds]
+    float y_prev;                // Previous filtered output
+    uint64_t timestamp_prev;     // Last execution timestamp [microseconds]
 } simplefoc_lowpassfilter_obj_t;
