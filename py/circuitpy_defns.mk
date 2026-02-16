@@ -790,6 +790,7 @@ SRC_SHARED_MODULE_ALL = \
 	simplefoc/PIDController.c \
 	simplefoc/LowPassFilter.c \
 	simplefoc/SpeedCalculator.c \
+	simplefoc/Encoder \
 	socket/__init__.c \
 	storage/__init__.c \
 	struct/__init__.c \
