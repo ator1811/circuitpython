@@ -11,3 +11,4 @@ extern float common_hal_simplefoc_encoder_get_angle(simplefoc_encoder_obj_t *sel
 extern float common_hal_simplefoc_encoder_get_velocity(simplefoc_encoder_obj_t *self);
 extern void common_hal_simplefoc_encoder_reset(simplefoc_encoder_obj_t *self);
 extern int32_t common_hal_simplefoc_encoder_get_position(simplefoc_encoder_obj_t *self);
+extern void common_hal_simplefoc_encoder_set_angle(simplefoc_encoder_obj_t *self, float angle);
