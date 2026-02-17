@@ -13,6 +13,10 @@ static inline int32_t read_encoder_position(mp_obj_t encoder_obj) {
     mp_obj_t position_obj = mp_load_attr(encoder_obj, MP_QSTR_position);
     return mp_obj_get_int(position_obj);
 }
+// New helper (write position back to rotaryio hardware encoder):
+static inline void write_encoder_position(mp_obj_t encoder_obj, int32_t count) {
+    mp_store_attr(encoder_obj, MP_QSTR_position, mp_obj_new_int(count));
+}
 
 void common_hal_simplefoc_encoder_construct(simplefoc_encoder_obj_t *self,
                                               mp_obj_t encoder_obj,
@@ -128,4 +132,16 @@ void common_hal_simplefoc_encoder_reset(simplefoc_encoder_obj_t *self) {
 int32_t common_hal_simplefoc_encoder_get_position(simplefoc_encoder_obj_t *self) {
     // Return cached position (updated by update() method)
     return self->pulse_counter;
+}
+
+void common_hal_simplefoc_encoder_set_angle(simplefoc_encoder_obj_t *self, float angle) {
+    int32_t new_count = (int32_t)(angle / self->angle_per_count); // rad → counts
+    write_encoder_position(self->encoder_obj, new_count);         // write to hardware
+    // Atomically update ALL internal state to prevent velocity spike:
+    self->pulse_counter      = new_count;
+    self->prev_pulse_counter = new_count;  // dN = 0 on next call
+    self->pulse_timestamp_us = timestamp_now;
+    self->prev_timestamp_us  = timestamp_now;
+    self->pulse_per_second   = 0.0f;       // velocity reset
+    self->prev_Th            = 0.0f;
 }
