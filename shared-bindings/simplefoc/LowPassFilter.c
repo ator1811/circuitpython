@@ -113,7 +113,7 @@ static MP_DEFINE_CONST_DICT(simplefoc_lowpassfilter_locals_dict, simplefoc_lowpa
 MP_DEFINE_CONST_OBJ_TYPE(
     simplefoc_lowpassfilter_type,
     MP_QSTR_LowPassFilter,
-    MP_TYPE_FLAG_NONE,
+    MP_TYPE_FLAG_HAS_SPECIAL_ACCESSORS,
     make_new, simplefoc_lowpassfilter_make_new,
     locals_dict, &simplefoc_lowpassfilter_locals_dict
 );
